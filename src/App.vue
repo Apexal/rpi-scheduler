@@ -27,7 +27,7 @@ export default {
   components: { MyAppDrawer },
   data () {
     return {
-      drawerOpen: true
+      drawerOpen: false
     }
   }
 }

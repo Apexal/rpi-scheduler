@@ -9,7 +9,8 @@
         md-description="To start your schedule, browse the course catalog and add sections.">
         <md-button class="md-primary md-raised">Browse Courses</md-button>
       </md-empty-state>
-      <FullCalendar v-else
+      <FullCalendar
+        v-else
         default-view="timeGridWeek"
         :plugins="calendar.plugins"
         slot-duration="01:00:00"
@@ -19,7 +20,7 @@
         :weekends="false"
         min-time="08:00:00"
         max-time="22:00:00"
-        height="100%"
+        :events="events"
       />
   </div>
 </template>
@@ -50,6 +51,9 @@ export default {
   computed: {
     selectedCRNs () {
       return this.$store.state.selectedCRNs
+    },
+    events () {
+      return this.$store.getters.getSelectedPeriods.map(this.$store.getters.mapPeriodToEvent)
     }
   }
 }
@@ -66,8 +70,27 @@ export default {
 }
 
 .fc-time-grid .fc-slats td {
-  height: 4em;
+  height: 3em;
   border-bottom: 0;
 }
 
+.fc {
+  border-radius: 6px;
+  background-color: white !important;
+  color: black !important;
+}
+
+.fc-toolbar {
+  display: none;
+}
+
+.fc a {
+  color: white !important;
+  text-decoration: none !important;
+}
+</style>
+
+<style lang="scss" scoped>
+.md-card {
+}
 </style>

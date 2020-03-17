@@ -3,7 +3,7 @@
     <md-dialog-title><strong>{{ course.subjectCode }}-{{ course.number }}</strong> {{ course.title}}</md-dialog-title>
 
     <md-dialog-content>
-      <md-tabs>
+      <md-tabs md-dynamic-height>
         <md-tab md-label="Description">
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui molestiae ipsa voluptatem veritatis ipsam, labore, eaque ipsum quia blanditiis natus tempora soluta rem sed libero laudantium dolores fugit similique voluptate cum quam odit? Laborum quo sed aspernatur quae optio at.</p>
         </md-tab>
@@ -43,6 +43,10 @@
         </md-tab>
       </md-tabs>
     </md-dialog-content>
+
+    <md-dialog-actions>
+      <md-button class="md-primary" @click="$emit('close')">Close</md-button>
+    </md-dialog-actions>
   </md-dialog>
 </template>
 
@@ -78,5 +82,7 @@ export default {
 </script>
 
 <style>
-
+.md-content.md-tabs-content {
+  max-width: 90vw !important;
+}
 </style>
