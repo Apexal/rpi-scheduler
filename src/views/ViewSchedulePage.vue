@@ -1,6 +1,6 @@
 <template>
-  <div class="your-schedule-page">
-      <h1>Your Schedule</h1>
+  <div class="view-schedule-page">
+      <h1>View Schedule</h1>
 
       <md-empty-state
         md-icon="calendar_today"
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'YourSchedulePage'
+  name: 'ViewSchedulePage'
 }
 </script>
 

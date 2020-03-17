@@ -7,6 +7,8 @@ export default new Vuex.Store({
   state: {
     selectedCRNs: []
   },
+  getters: {
+  },
   mutations: {
     SELECT_CRN (state, crn) {
       state.selectedCRNs = [...state.selectedCRNs, crn]
@@ -16,7 +18,5 @@ export default new Vuex.Store({
     }
   },
   actions: {
-  },
-  modules: {
   }
 })
