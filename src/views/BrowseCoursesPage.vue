@@ -2,21 +2,41 @@
   <div class="browse-courses-page">
     <h1>Browse Courses</h1>
 
-    <md-autocomplete v-model="search.subjectCode" :md-options="subjectCodes">
-      <label>Subject</label>
-    </md-autocomplete>
-    <md-autocomplete v-model="search.title" :md-options="searchCourseTitles">
-      <label>Title</label>
-    </md-autocomplete>
+    <div class="search md-layout md-gutter">
+      <div class="md-layout-item">
+        <md-autocomplete v-model.trim="search.subjectCode" :md-options="subjectCodes">
+          <label>Subject</label>
+        </md-autocomplete>
+      </div>
+      <div class="md-layout-item">
+        <md-autocomplete v-model.trim="search.title" :md-options="searchCourseTitles">
+          <label>Title</label>
+        </md-autocomplete>
+      </div>
+
+    </div>
 
     <CourseDialog :active="isCourseDialogOpen" :course="selectedCourse" @add-section="showSnackbar = true" @close="isCourseDialogOpen = false" />
 
-    <md-empty-state v-if="results.length === 0"
+    <div class="subject-codes" v-if="isSearchEmpty">
+      <md-card md-with-hover v-for="(subjectCourses, subjectCode) in groupedBySubjectCode" :key="subjectCode" @click.native="search.subjectCode = subjectCode">
+        <md-ripple>
+          <md-card-header>
+            <div class="md-title">{{ subjectCode }}</div>
+            <div class="md-subhead">Full Subject Title</div>
+          </md-card-header>
+
+        </md-ripple>
+      </md-card>
+    </div>
+
+    <md-empty-state v-else-if="results.length === 0"
       md-rounded
       md-icon="search"
       md-label="No results for your search"
       md-description="We could not find any courses that matched your search. Try changing the filters.">
     </md-empty-state>
+
     <md-table v-else>
       <md-table-row>
         <md-table-head>Title</md-table-head>
@@ -58,6 +78,9 @@ export default {
     }
   },
   computed: {
+    isSearchEmpty () {
+      return !this.search.subjectCode && !this.search.title
+    },
     groupedBySubjectCode () {
       const grouped = {}
       for (const course of courses) {
@@ -78,7 +101,7 @@ export default {
       return (this.groupedBySubjectCode[this.search.subjectCode] || []).map(course => course.title)
     },
     results () {
-      if (!this.search.subjectCode && !this.search.title) return []
+      if (this.isSearchEmpty) return []
 
       let results = courses
       if (this.search.subjectCode) {
@@ -100,6 +123,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.md-card {
+  width: 320px;
+  margin: 10px;
+  display: inline-block;
+  vertical-align: top;
+}
 </style>
