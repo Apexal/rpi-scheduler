@@ -21,8 +21,6 @@
       </div>
     </div>
 
-    <CourseDialog :active="isCourseDialogOpen" :course="selectedCourse" @add-section="showSnackbar = true" @close="isCourseDialogOpen = false" />
-
     <div class="subject-codes" v-if="isSearchEmpty">
       <md-card class="md-primary" md-with-hover v-for="(subjectCourses, subjectCode) in groupedBySubjectCode" :key="subjectCode" @click.native="search.subjectCode = subjectCode">
         <md-ripple>
@@ -50,39 +48,28 @@
         <md-table-head>Credits</md-table-head>
       </md-table-row>
 
-      <md-table-row v-for="result in results" :key="result.subjectCode + result.number" @click="selectedCourse = result; isCourseDialogOpen = true">
+      <md-table-row v-for="result in results" :key="result.subjectCode + result.number" @click="selectCourse(result)">
         <md-table-cell><strong>{{ result.subjectCode }}-{{ result.number }}</strong></md-table-cell>
         <md-table-cell>{{ result.title }}</md-table-cell>
         <md-table-cell>{{ result.sections.length }}</md-table-cell>
         <md-table-cell>{{ getAllCredits(result.sections).join(',') }}</md-table-cell>
       </md-table-row>
     </md-table>
-
-    <md-snackbar md-position="center" :md-duration="4000" :md-active.sync="showSnackbar" md-persistent>
-      <span>Added course to your schedule!</span>
-      <md-button class="md-primary" @click="showSnackbar = false">Undo</md-button>
-    </md-snackbar>
   </div>
 </template>
 
 <script>
-import CourseDialog from '../components/CourseDialog.vue'
-
 import courses from '../data.json'
 
 export default {
   name: 'BrowseCoursesPage',
-  components: { CourseDialog },
   data () {
     return {
-      showSnackbar: false,
-      isCourseDialogOpen: true,
       search: {
         subjectCode: '',
         title: '',
         instructor: ''
-      },
-      selectedCourse: null
+      }
     }
   },
   computed: {
@@ -134,6 +121,10 @@ export default {
   methods: {
     getAllCredits (sections) {
       return [...new Set(sections.map(section => section.credits))].sort()
+    },
+    selectCourse (course) {
+      this.$store.commit('SET_SELECTED_COURSE', course)
+      this.$store.commit('SET_COURSE_DIALOG_OPEN', true)
     }
   }
 }

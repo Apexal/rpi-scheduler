@@ -6,6 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    isCourseDialogOpen: false,
+    selectedCourse: null,
     selectedCRNs: [
       '94997',
       '94806',
@@ -32,6 +34,12 @@ export default new Vuex.Store({
     },
     UNSELECT_CRN (state, crn) {
       state.selectedCRNs = state.selectedCRNs.filter(oldCRN => oldCRN !== crn)
+    },
+    SET_SELECTED_COURSE (state, course) {
+      state.selectedCourse = course
+    },
+    SET_COURSE_DIALOG_OPEN (state, isOpen) {
+      state.isCourseDialogOpen = isOpen
     }
   },
   actions: {
