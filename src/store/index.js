@@ -33,7 +33,8 @@ export default new Vuex.Store({
         title: period.courseTitle + ' ' + period.periodType,
         startTime: period.startTime,
         endTime: period.endTime,
-        daysOfWeek: period.days
+        daysOfWeek: period.days,
+        crn: period.crn
       }
     }
   },

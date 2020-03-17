@@ -22,6 +22,7 @@
         max-time="22:00:00"
         :events="events"
         height="auto"
+        @eventClick="eventClick"
       />
   </div>
 </template>
@@ -30,6 +31,7 @@
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
 
 export default {
   name: 'ViewSchedulePage',
@@ -37,7 +39,7 @@ export default {
   data () {
     return {
       calendar: {
-        plugins: [dayGridPlugin, timeGridPlugin],
+        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
         header: {
           left: '',
           center: '',
@@ -55,6 +57,12 @@ export default {
     },
     events () {
       return this.$store.getters.getSelectedPeriods.map(this.$store.getters.mapPeriodToEvent)
+    }
+  },
+  methods: {
+    eventClick ({ event }) {
+      this.$store.commit('SET_SELECTED_COURSE', this.$store.getters.getSelectedCoursesGroupedByCRN[event.extendedProps.crn])
+      this.$store.commit('SET_COURSE_DIALOG_OPEN', true)
     }
   }
 }
@@ -88,6 +96,10 @@ export default {
 .fc a {
   color: white !important;
   text-decoration: none !important;
+}
+
+.fc-event {
+  cursor: pointer;
 }
 </style>
 
