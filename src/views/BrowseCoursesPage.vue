@@ -14,6 +14,11 @@
         </md-autocomplete>
       </div>
 
+      <div class="md-layout-item">
+        <md-autocomplete v-model.trim="search.instructor" :md-options="searchCourseInstructors">
+          <label>Title</label>
+        </md-autocomplete>
+      </div>
     </div>
 
     <CourseDialog :active="isCourseDialogOpen" :course="selectedCourse" @add-section="showSnackbar = true" @close="isCourseDialogOpen = false" />
@@ -72,7 +77,8 @@ export default {
       isCourseDialogOpen: true,
       search: {
         subjectCode: '',
-        title: ''
+        title: '',
+        instructor: ''
       },
       selectedCourse: null
     }
@@ -100,6 +106,10 @@ export default {
       if (this.search.subjectCode === '') return []
       return (this.groupedBySubjectCode[this.search.subjectCode] || []).map(course => course.title)
     },
+    searchCourseInstructors () {
+      if (this.isSearchEmpty) return []
+      return [...new Set(this.results.map(course => course.sections.map(section => section.instructors).flat()).flat())].sort()
+    },
     results () {
       if (this.isSearchEmpty) return []
 
@@ -110,6 +120,10 @@ export default {
 
       if (this.search.title) {
         results = results.filter(course => course.title.toLowerCase().includes(this.search.title.toLowerCase()))
+      }
+
+      if (this.search.instructor) {
+        results = results.filter(course => course.sections.some(section => section.instructors.includes(this.search.instructor)))
       }
 
       return results
