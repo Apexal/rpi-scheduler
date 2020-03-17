@@ -21,6 +21,7 @@
         min-time="08:00:00"
         max-time="22:00:00"
         :events="events"
+        height="auto"
       />
   </div>
 </template>
