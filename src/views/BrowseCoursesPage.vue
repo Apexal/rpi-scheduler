@@ -29,16 +29,15 @@
           :key="subjectCode"
           :class="favoriteSubjectCodes.includes(subjectCode) ? 'md-accent' : 'md-primary'"
           md-with-hover
+          @click.native="search.subjectCode = subjectCode"
         >
           <md-ripple>
             <md-card-header>
               <md-card-header-text>
-                <div @click="search.subjectCode = subjectCode">
-                  <div class="md-title">{{ subjectCode }}</div>
-                  <div class="md-subhead">{{ subjectCodeFullName(subjectCode) }}</div>
-                </div>
+                <div class="md-title">{{ subjectCode }}</div>
+                <div class="md-subhead">{{ subjectCodeFullName(subjectCode) }}</div>
               </md-card-header-text>
-              <md-button class="md-icon-button" @click.prevent="toggleSubjectCodeFavorite(subjectCode)">
+              <md-button class="md-icon-button" @click.stop="toggleSubjectCodeFavorite(subjectCode)">
                 <md-icon>star</md-icon>
               </md-button>
             </md-card-header>

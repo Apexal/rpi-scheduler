@@ -22,13 +22,14 @@
       <md-divider></md-divider>
 
       <md-subheader>Selected Sections</md-subheader>
-
-      <md-list-item v-for="(course, crn) in selectedCourses" :key="crn" @click="selectCourse(course)">
-        <strong class="selected-crn">{{ crn }}</strong><span class="md-list-item-text">{{ course.title }}</span>
-        <md-button v-if="selectedCRNs.includes(crn)" class="md-icon-button md-accent" @click="$store.commit('UNSELECT_CRN', crn)">
-          <md-icon>remove_circle_outline</md-icon>
-        </md-button>
-      </md-list-item>
+      <transition-group name="selected-crn-list" tag="div">
+        <md-list-item v-for="(course, crn) in selectedCourses" :key="course.title + crn" @click="selectCourse(course)">
+          <strong class="selected-crn">{{ crn }}</strong><span class="md-list-item-text">{{ course.title }}</span>
+          <md-button v-if="selectedCRNs.includes(crn)" class="md-icon-button md-accent" @click.stop="$store.commit('UNSELECT_CRN', crn)">
+            <md-icon>remove_circle_outline</md-icon>
+          </md-button>
+        </md-list-item>
+      </transition-group>
     </md-list>
   </div>
 </template>
@@ -56,5 +57,13 @@ export default {
 <style scoped>
 .selected-crn {
   margin-right: 10px;
+}
+
+.selected-crn-list-enter-active, .selected-crn-list-leave-active {
+  transition: all 0.2s;
+}
+.selected-crn-list-enter, .selected-crn-list-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
 }
 </style>
