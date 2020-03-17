@@ -31,7 +31,12 @@
               </md-table-cell>
               <md-table-cell>{{ section.instructors.join(', ') }}</md-table-cell>
               <md-table-cell>
-                <md-button class="md-raised md-primary" @click="addSection()">Add</md-button>
+                <md-button v-if="selectedCRNs.includes(section.crn)" class="md-icon-button md-accent" @click="$store.commit('UNSELECT_CRN', section.crn)">
+                  <md-icon>remove_circle_outline</md-icon>
+                </md-button>
+                <md-button v-else class="md-icon-button md-primary" @click="$store.commit('SELECT_CRN', section.crn)">
+                  <md-icon>add_circle_outline</md-icon>
+                </md-button>
               </md-table-cell>
             </md-table-row>
           </md-table>
@@ -53,6 +58,11 @@ export default {
     active: { type: Boolean, default: false },
     course: { required: true }
   },
+  computed: {
+    selectedCRNs () {
+      return this.$store.state.selectedCRNs
+    }
+  },
   methods: {
     dayName (dayNum) {
       return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayNum] || '?'
@@ -62,9 +72,6 @@ export default {
     },
     formatTime (timeString) {
       return dayjs(timeString, 'HH:mm').format('h:mm a')
-    },
-    addSection () {
-      this.$emit('add-section')
     }
   }
 }
