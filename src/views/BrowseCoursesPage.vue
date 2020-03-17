@@ -16,7 +16,7 @@
 
       <div class="md-layout-item">
         <md-autocomplete v-model.trim="search.instructor" :md-options="searchCourseInstructors">
-          <label>Title</label>
+          <label>Instructor</label>
         </md-autocomplete>
       </div>
     </div>
@@ -44,12 +44,14 @@
 
     <md-table v-else>
       <md-table-row>
+        <md-table-head>Code</md-table-head>
         <md-table-head>Title</md-table-head>
         <md-table-head>Sections</md-table-head>
         <md-table-head>Credits</md-table-head>
       </md-table-row>
 
       <md-table-row v-for="result in results" :key="result.subjectCode + result.number" @click="selectedCourse = result; isCourseDialogOpen = true">
+        <md-table-cell><strong>{{ result.subjectCode }}-{{ result.number }}</strong></md-table-cell>
         <md-table-cell>{{ result.title }}</md-table-cell>
         <md-table-cell>{{ result.sections.length }}</md-table-cell>
         <md-table-cell>{{ getAllCredits(result.sections).join(',') }}</md-table-cell>
@@ -85,7 +87,7 @@ export default {
   },
   computed: {
     isSearchEmpty () {
-      return !this.search.subjectCode && !this.search.title
+      return !this.search.subjectCode && !this.search.title && !this.search.instructor
     },
     groupedBySubjectCode () {
       const grouped = {}

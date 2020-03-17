@@ -34,4 +34,7 @@ export default {
 </script>
 
 <style lang="scss">
+.md-app {
+  height: 100vh;
+}
 </style>
