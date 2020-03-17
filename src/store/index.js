@@ -16,6 +16,15 @@ export default new Vuex.Store({
     ]
   },
   getters: {
+    getSelectedCoursesGroupedByCRN: state => {
+      const grouped = {}
+      for (const crn of state.selectedCRNs) {
+        const course = courses.find(course => !!course.sections.find(section => section.crn === crn))
+        grouped[crn] = course
+      }
+
+      return grouped
+    },
     getSelectedPeriods: state => {
       return courses.map(course => course.sections.filter(section => state.selectedCRNs.includes(section.crn))).flat().map(section => section.periods).flat()
     },
