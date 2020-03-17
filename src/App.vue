@@ -1,32 +1,37 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div class="page-container">
+    <md-app md-waterfall md-mode="fixed">
+      <md-app-toolbar class="md-primary">
+        <md-button class="md-icon-button" @click="drawerOpen = !drawerOpen">
+          <md-icon>menu</md-icon>
+        </md-button>
+        <span class="md-title">RPI Scheduler</span>
+      </md-app-toolbar>
+
+      <md-app-drawer md-permanent="full" :md-active.sync="drawerOpen">
+          <MyAppDrawer />
+      </md-app-drawer>
+
+      <md-app-content>
+        <router-view></router-view>
+      </md-app-content>
+    </md-app>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import MyAppDrawer from './components/MyAppDrawer'
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default {
+  name: 'App',
+  components: { MyAppDrawer },
+  data () {
+    return {
+      drawerOpen: true
     }
   }
 }
+</script>
+
+<style lang="scss">
 </style>
