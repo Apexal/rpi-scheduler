@@ -13,12 +13,14 @@
 
     <h1>What is planned?</h1>
     <ul>
-      <li>Advanced section search</li>
-      <ul>
-        <li>Earliest starting time</li>
-        <li>Latest ending time</li>
-      </ul>
-      <li>Full subject titles</li>
+      <li>
+        Advanced section search
+        <ul>
+          <li>Earliest starting time</li>
+          <li>Latest ending time</li>
+        </ul>
+      </li>
+      <li class="done">Full subject titles</li>
       <li>Official course descriptions</li>
       <li>Section conflict detection</li>
       <li>Marking times in the calendar to schedule around</li>
@@ -41,3 +43,9 @@ export default {
   name: 'Home'
 }
 </script>
+
+<style lang="scss" scoped>
+li.done {
+  text-decoration: line-through;
+}
+</style>

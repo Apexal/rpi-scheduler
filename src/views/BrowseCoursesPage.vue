@@ -4,7 +4,7 @@
 
     <div class="search md-layout md-gutter">
       <div class="md-layout-item">
-        <md-autocomplete v-model.trim="search.subjectCode" :md-options="subjectCodes">
+        <md-autocomplete v-model.trim="search.subjectCode" :md-options="subjectCodesWithFullNames">
           <label>Subject</label>
         </md-autocomplete>
       </div>
@@ -22,15 +22,30 @@
     </div>
 
     <div class="subject-codes" v-if="isSearchEmpty">
-      <md-card class="md-primary" md-with-hover v-for="(subjectCourses, subjectCode) in groupedBySubjectCode" :key="subjectCode" @click.native="search.subjectCode = subjectCode">
-        <md-ripple>
-          <md-card-header>
-            <div class="md-title">{{ subjectCode }}</div>
-            <div class="md-subhead">{{ subjectCodeFullName(subjectCode) }}</div>
-          </md-card-header>
+      <transition-group name="subject-code-list" tag="div">
 
-        </md-ripple>
-      </md-card>
+        <md-card
+          v-for="subjectCode in subjectCodes"
+          :key="subjectCode"
+          :class="favoriteSubjectCodes.includes(subjectCode) ? 'md-accent' : 'md-primary'"
+          md-with-hover
+        >
+          <md-ripple>
+            <md-card-header>
+              <md-card-header-text>
+                <div @click="search.subjectCode = subjectCode">
+                  <div class="md-title">{{ subjectCode }}</div>
+                  <div class="md-subhead">{{ subjectCodeFullName(subjectCode) }}</div>
+                </div>
+              </md-card-header-text>
+              <md-button class="md-icon-button" @click.prevent="toggleSubjectCodeFavorite(subjectCode)">
+                <md-icon>star</md-icon>
+              </md-button>
+            </md-card-header>
+
+          </md-ripple>
+        </md-card>
+      </transition-group>
     </div>
 
     <md-empty-state v-else-if="results.length === 0"
@@ -66,6 +81,7 @@ export default {
   name: 'BrowseCoursesPage',
   data () {
     return {
+      favoriteSubjectCodes: [],
       search: {
         subjectCode: '',
         title: '',
@@ -90,7 +106,20 @@ export default {
       return grouped
     },
     subjectCodes () {
-      return Object.keys(this.groupedBySubjectCode).map(subjectCode => `${subjectCode} - ${this.subjectCodeFullName(subjectCode)}`)
+      return Object.keys(this.groupedBySubjectCode)
+        .sort((a, b) => {
+          if (this.favoriteSubjectCodes.includes(a) && this.favoriteSubjectCodes.includes(b)) {
+            if (a > b) return 1
+            if (a < b) return -1
+          } else if (this.favoriteSubjectCodes.includes(a)) return -1
+          else if (this.favoriteSubjectCodes.includes(b)) return 1
+          else if (a > b) return 1
+          else if (a < b) return -1
+          return 0
+        })
+    },
+    subjectCodesWithFullNames () {
+      return this.subjectCodes.map(subjectCode => `${subjectCode} - ${this.subjectCodeFullName(subjectCode)}`)
     },
     searchCourseTitles () {
       if (this.search.subjectCode === '') return []
@@ -129,6 +158,13 @@ export default {
     },
     subjectCodeFullName (subjectCode) {
       return subjectCodesFullNames[subjectCode] || subjectCode
+    },
+    toggleSubjectCodeFavorite (subjectCode) {
+      if (this.favoriteSubjectCodes.includes(subjectCode)) {
+        this.favoriteSubjectCodes = this.favoriteSubjectCodes.filter(oldSubjectCode => oldSubjectCode !== subjectCode)
+      } else {
+        this.favoriteSubjectCodes = [...this.favoriteSubjectCodes, subjectCode]
+      }
     }
   }
 }
@@ -140,5 +176,9 @@ export default {
   margin: 10px;
   display: inline-block;
   vertical-align: top;
+}
+
+.subject-code-list-move {
+  transition: transform 0.5s ease-out;
 }
 </style>
