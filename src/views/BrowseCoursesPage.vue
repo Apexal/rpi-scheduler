@@ -2,11 +2,14 @@
   <div class="browse-courses-page">
     <h1>Browse Courses</h1>
 
-    <md-autocomplete v-model="selectedSubjectCode" :md-options="subjectCodes">
+    <md-autocomplete v-model="search.subjectCode" :md-options="subjectCodes">
       <label>Subject</label>
     </md-autocomplete>
+    <md-autocomplete v-model="search.title" :md-options="searchCourseTitles">
+      <label>Title</label>
+    </md-autocomplete>
 
-    <CourseDialog :active="isCourseDialogOpen" :course="selectedCourse" @close="isCourseDialogOpen = false" />
+    <CourseDialog :active="isCourseDialogOpen" :course="selectedCourse" @add-section="showSnackbar = true" @close="isCourseDialogOpen = false" />
 
     <md-empty-state v-if="results.length === 0"
       md-rounded
@@ -17,15 +20,21 @@
     <md-table v-else>
       <md-table-row>
         <md-table-head>Title</md-table-head>
-        <md-table-head numeric>Sections</md-table-head>
+        <md-table-head>Sections</md-table-head>
         <md-table-head>Credits</md-table-head>
       </md-table-row>
 
       <md-table-row v-for="result in results" :key="result.subjectCode + result.number" @click="selectedCourse = result; isCourseDialogOpen = true">
         <md-table-cell>{{ result.title }}</md-table-cell>
         <md-table-cell>{{ result.sections.length }}</md-table-cell>
+        <md-table-cell>{{ getAllCredits(result.sections).join(',') }}</md-table-cell>
       </md-table-row>
     </md-table>
+
+    <md-snackbar md-position="center" :md-duration="4000" :md-active.sync="showSnackbar" md-persistent>
+      <span>Added course to your schedule!</span>
+      <md-button class="md-primary" @click="showSnackbar = false">Undo</md-button>
+    </md-snackbar>
   </div>
 </template>
 
@@ -39,8 +48,12 @@ export default {
   components: { CourseDialog },
   data () {
     return {
+      showSnackbar: false,
       isCourseDialogOpen: true,
-      selectedSubjectCode: '',
+      search: {
+        subjectCode: '',
+        title: ''
+      },
       selectedCourse: null
     }
   },
@@ -60,8 +73,28 @@ export default {
     subjectCodes () {
       return Object.keys(this.groupedBySubjectCode)
     },
+    searchCourseTitles () {
+      if (this.search.subjectCode === '') return []
+      return (this.groupedBySubjectCode[this.search.subjectCode] || []).map(course => course.title)
+    },
     results () {
-      return this.groupedBySubjectCode[this.selectedSubjectCode] || []
+      if (!this.search.subjectCode && !this.search.title) return []
+
+      let results = courses
+      if (this.search.subjectCode) {
+        results = courses.filter(course => course.subjectCode.toLowerCase().startsWith(this.search.subjectCode.toLowerCase()))
+      }
+
+      if (this.search.title) {
+        results = results.filter(course => course.title.toLowerCase().includes(this.search.title.toLowerCase()))
+      }
+
+      return results
+    }
+  },
+  methods: {
+    getAllCredits (sections) {
+      return [...new Set(sections.map(section => section.credits))].sort()
     }
   }
 }

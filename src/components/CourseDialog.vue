@@ -22,12 +22,16 @@
               <md-table-cell>{{ section.crn }}</md-table-cell>
               <md-table-cell>
                 <md-list>
-                  <md-list-item v-for="(period, index) in section.periods" :key="index">{{ dayNames(period.days).join(', ') }} {{period.startTime}} {{ period.endTime }}</md-list-item>
+                  <md-list-item v-for="(period, index) in section.periods" :key="index">
+                    <strong>{{ dayNames(period.days).join(', ') }}</strong>
+                    <span class="times">{{formatTime(period.startTime)}} {{ formatTime(period.endTime) }}</span>
+                    <span class="location">{{ period.location }}</span>
+                  </md-list-item>
                 </md-list>
               </md-table-cell>
               <md-table-cell>{{ section.instructors.join(', ') }}</md-table-cell>
               <md-table-cell>
-                <md-button class="md-raised md-primary">Add</md-button>
+                <md-button class="md-raised md-primary" @click="addSection()">Add</md-button>
               </md-table-cell>
             </md-table-row>
           </md-table>
@@ -38,14 +42,16 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+
+dayjs.extend(customParseFormat)
+
 export default {
   name: 'CourseDialog',
   props: {
     active: { type: Boolean, default: false },
-    course: {
-      type: Object,
-      required: true
-    }
+    course: { required: true }
   },
   methods: {
     dayName (dayNum) {
@@ -53,6 +59,12 @@ export default {
     },
     dayNames (days) {
       return days.map(this.dayName)
+    },
+    formatTime (timeString) {
+      return dayjs(timeString, 'HH:mm').format('h:mm a')
+    },
+    addSection () {
+      this.$emit('add-section')
     }
   }
 }
