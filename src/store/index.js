@@ -9,10 +9,10 @@ export default new Vuex.Store({
     isCourseDialogOpen: false,
     selectedCourse: null,
     selectedCRNs: [
-      '94997',
-      '94806',
-      '94496',
-      '95738'
+      // '94997',
+      // '94806',
+      // '94496',
+      // '95738'
     ]
   },
   getters: {
