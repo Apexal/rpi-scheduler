@@ -19,7 +19,7 @@
     <CourseDialog :active="isCourseDialogOpen" :course="selectedCourse" @add-section="showSnackbar = true" @close="isCourseDialogOpen = false" />
 
     <div class="subject-codes" v-if="isSearchEmpty">
-      <md-card md-with-hover v-for="(subjectCourses, subjectCode) in groupedBySubjectCode" :key="subjectCode" @click.native="search.subjectCode = subjectCode">
+      <md-card class="md-primary" md-with-hover v-for="(subjectCourses, subjectCode) in groupedBySubjectCode" :key="subjectCode" @click.native="search.subjectCode = subjectCode">
         <md-ripple>
           <md-card-header>
             <div class="md-title">{{ subjectCode }}</div>
