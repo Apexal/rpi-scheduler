@@ -50,6 +50,9 @@ export default new Vuex.Store({
     },
     SET_COURSE_DIALOG_OPEN (state, isOpen) {
       state.isCourseDialogOpen = isOpen
+    },
+    CLEAR_SELECTED_CRNS: state => {
+      state.selectedCRNs = []
     }
   },
   actions: {

@@ -5,16 +5,28 @@
         <md-button class="md-icon-button" @click="drawerOpen = !drawerOpen">
           <md-icon>menu</md-icon>
         </md-button>
-        <span class="md-title">RPI Scheduler</span>
+        <span class="md-title" style="flex: 1">RPI Scheduler</span>
+
+        <md-menu md-size="medium" md-align-trigger>
+          <md-button md-menu-trigger>Spring 2020</md-button>
+
+          <md-menu-content>
+            <md-menu-item>Summer 2020</md-menu-item>
+            <md-menu-item>Fall 2020</md-menu-item>
+          </md-menu-content>
+        </md-menu>
       </md-app-toolbar>
 
       <md-app-drawer md-permanent="full" :md-active.sync="drawerOpen">
         <MyAppDrawer />
-        <CourseDialog :active="$store.state.isCourseDialogOpen" :course="$store.state.selectedCourse" @close="$store.commit('SET_COURSE_DIALOG_OPEN', false)" />
       </md-app-drawer>
 
       <md-app-content>
+        <CourseDialog :active="$store.state.isCourseDialogOpen" :course="$store.state.selectedCourse" @close="$store.commit('SET_COURSE_DIALOG_OPEN', false)" />
         <router-view></router-view>
+        <md-button v-if="$store.state.selectedCRNs.length > 0" class="md-fab md-plain md-fab-bottom-right" @click="$store.commit('CLEAR_SELECTED_CRNS')">
+          <md-icon>clear</md-icon>
+        </md-button>
       </md-app-content>
 
     </md-app>
