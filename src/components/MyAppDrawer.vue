@@ -4,6 +4,11 @@
 
     <md-subheader>Pages</md-subheader>
     <md-list>
+      <md-list-item :to="{ name: 'Home' }">
+        <md-icon>home</md-icon>
+        <span class="md-list-item-text">Home</span>
+      </md-list-item>
+
       <md-list-item :to="{ name: 'BrowseCourses' }">
         <md-icon>school</md-icon>
         <span class="md-list-item-text">Browse Courses</span>

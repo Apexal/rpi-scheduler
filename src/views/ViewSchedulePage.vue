@@ -7,7 +7,7 @@
         md-icon="calendar_today"
         md-label="No sections selected"
         md-description="To start your schedule, browse the course catalog and add sections.">
-        <md-button class="md-primary md-raised">Browse Courses</md-button>
+        <md-button class="md-primary md-raised" :to="{ name: 'BrowseCourses' }">Browse Courses</md-button>
       </md-empty-state>
       <FullCalendar
         v-else
