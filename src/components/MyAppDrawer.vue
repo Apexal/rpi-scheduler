@@ -18,7 +18,12 @@
 
       <md-subheader>Selected Sections</md-subheader>
 
-      <md-list-item v-for="crn in selectedCRNs" :key="crn">{{ crn }}</md-list-item>
+      <md-list-item v-for="crn in selectedCRNs" :key="crn">
+        <span class="selected-crn">{{ crn }}</span>
+        <md-button v-if="selectedCRNs.includes(crn)" class="md-icon-button md-accent" @click="$store.commit('UNSELECT_CRN', crn)">
+          <md-icon>remove_circle_outline</md-icon>
+        </md-button>
+      </md-list-item>
     </md-list>
   </div>
 </template>
