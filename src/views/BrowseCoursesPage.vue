@@ -26,7 +26,7 @@
         <md-ripple>
           <md-card-header>
             <div class="md-title">{{ subjectCode }}</div>
-            <div class="md-subhead">Full Subject Title</div>
+            <div class="md-subhead">{{ subjectCodeFullName(subjectCode) }}</div>
           </md-card-header>
 
         </md-ripple>
@@ -60,6 +60,7 @@
 
 <script>
 import courses from '../data.json'
+import subjectCodesFullNames from '../subjectCodes'
 
 export default {
   name: 'BrowseCoursesPage',
@@ -89,7 +90,7 @@ export default {
       return grouped
     },
     subjectCodes () {
-      return Object.keys(this.groupedBySubjectCode)
+      return Object.keys(this.groupedBySubjectCode).map(subjectCode => `${subjectCode} - ${this.subjectCodeFullName(subjectCode)}`)
     },
     searchCourseTitles () {
       if (this.search.subjectCode === '') return []
@@ -104,7 +105,7 @@ export default {
 
       let results = courses
       if (this.search.subjectCode) {
-        results = courses.filter(course => course.subjectCode.toLowerCase().startsWith(this.search.subjectCode.toLowerCase()))
+        results = courses.filter(course => course.subjectCode.toLowerCase().startsWith(this.search.subjectCode.toLowerCase().split(' -')[0]))
       }
 
       if (this.search.title) {
@@ -125,6 +126,9 @@ export default {
     selectCourse (course) {
       this.$store.commit('SET_SELECTED_COURSE', course)
       this.$store.commit('SET_COURSE_DIALOG_OPEN', true)
+    },
+    subjectCodeFullName (subjectCode) {
+      return subjectCodesFullNames[subjectCode] || subjectCode
     }
   }
 }
