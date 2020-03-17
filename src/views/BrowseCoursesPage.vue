@@ -89,6 +89,15 @@ export default {
       }
     }
   },
+  created () {
+    if (localStorage.getItem('favoriteSubjectCodes') !== null) {
+      try {
+        this.favoriteSubjectCodes = JSON.parse(localStorage.getItem('favoriteSubjectCodes'))
+      } catch (e) {
+        localStorage.removeItem('favoriteSubjectCodes')
+      }
+    }
+  },
   computed: {
     isSearchEmpty () {
       return !this.search.subjectCode && !this.search.title && !this.search.instructor
@@ -146,6 +155,11 @@ export default {
       }
 
       return results
+    }
+  },
+  watch: {
+    favoriteSubjectCodes (newFavoriteSubjectCodes) {
+      localStorage.setItem('favoriteSubjectCodes', JSON.stringify(newFavoriteSubjectCodes))
     }
   },
   methods: {
