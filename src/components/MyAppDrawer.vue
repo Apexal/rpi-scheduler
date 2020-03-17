@@ -4,12 +4,12 @@
 
     <md-list>
       <md-list-item>
-        <md-icon>move_to_inbox</md-icon>
+        <md-icon>school</md-icon>
         <span class="md-list-item-text">Browse Courses</span>
       </md-list-item>
 
       <md-list-item>
-        <md-icon>move_to_inbox</md-icon>
+        <md-icon>calendar_today</md-icon>
         <span class="md-list-item-text">Your Schedules</span>
       </md-list-item>
 
