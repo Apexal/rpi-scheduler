@@ -70,8 +70,19 @@
       md-description="We could not find any courses that matched your search. Try changing the filters.">
     </md-empty-state>
 
-    <md-table v-else>
-      <md-table-row>
+    <md-table v-model="tableResults" md-sort="code" md-sort-order="asc">
+
+      <md-table-toolbar>
+        <h1 class="md-title">Search Results</h1>
+      </md-table-toolbar>
+
+      <md-table-row slot="md-table-row" slot-scope="{ item }" @click="selectCourse(item)">
+        <md-table-cell md-label="Code" md-sort-by="number"><strong>{{ item.subjectCode }}-{{ item.number }}</strong></md-table-cell>
+        <md-table-cell md-label="Title" md-sort-by="title">{{ item.title }}</md-table-cell>
+        <md-table-cell md-label="Sections" md-sort-by="sections.length">{{ item.sections.length }}</md-table-cell>
+        <md-table-cell md-label="Credits">{{ getAllCredits(item.sections).join(',') }}</md-table-cell>
+      </md-table-row>
+      <!-- <md-table-row>
         <md-table-head>Code</md-table-head>
         <md-table-head>Title</md-table-head>
         <md-table-head>Sections</md-table-head>
@@ -79,11 +90,7 @@
       </md-table-row>
 
       <md-table-row v-for="result in results" :key="result.subjectCode + result.number" @click="selectCourse(result)">
-        <md-table-cell><strong>{{ result.subjectCode }}-{{ result.number }}</strong></md-table-cell>
-        <md-table-cell>{{ result.title }}</md-table-cell>
-        <md-table-cell>{{ result.sections.length }}</md-table-cell>
-        <md-table-cell>{{ getAllCredits(result.sections).join(',') }}</md-table-cell>
-      </md-table-row>
+      </md-table-row> -->
     </md-table>
   </div>
 </template>
@@ -97,6 +104,7 @@ export default {
   data () {
     return {
       favoriteSubjectCodes: [],
+      tableResults: [],
       search: {
         subjectCode: '',
         title: '',
@@ -154,6 +162,7 @@ export default {
       return [...new Set(this.results.map(course => course.sections.map(section => section.instructors).flat()).flat())].sort()
     },
     results () {
+      console.log('changed results')
       if (this.isSearchEmpty) return []
 
       let results = courses
@@ -173,6 +182,10 @@ export default {
     }
   },
   watch: {
+    results (newResults) {
+      this.tableResults = newResults
+      console.log('updated tableResults')
+    },
     favoriteSubjectCodes (newFavoriteSubjectCodes) {
       localStorage.setItem('favoriteSubjectCodes', JSON.stringify(newFavoriteSubjectCodes))
     }
