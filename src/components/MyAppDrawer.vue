@@ -30,6 +30,7 @@
           </strong>
           <span class="md-list-item-text">{{ course.title }}</span>
           <md-button v-if="selectedCRNs.includes(crn)" class="md-icon-button md-accent" @click.stop="$store.commit('UNSELECT_CRN', crn)">
+            <md-tooltip md-direction="left">Remove section</md-tooltip>
             <md-icon>remove_circle_outline</md-icon>
           </md-button>
         </md-list-item>

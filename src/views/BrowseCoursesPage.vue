@@ -3,7 +3,7 @@
     <h1>Browse Courses</h1>
 
     <md-card>
-
+      <md-card-content>
         <div class="search md-layout md-gutter">
           <div class="md-layout-item">
             <md-autocomplete v-model.trim="search.subjectCode" :md-options="subjectCodesWithFullNames">
@@ -22,10 +22,11 @@
             </md-autocomplete>
           </div>
         </div>
+      </md-card-content>
       <md-card-expand>
-        <md-card-expand-trigger>
+        <!-- <md-card-expand-trigger>
           <md-button class="md-accent">Advanced Search</md-button>
-        </md-card-expand-trigger>
+        </md-card-expand-trigger> -->
         <md-card-expand-content>
           <md-card-content>
             <p>test</p>
