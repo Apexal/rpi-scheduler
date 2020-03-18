@@ -41,9 +41,11 @@ export default new Vuex.Store({
   mutations: {
     SELECT_CRN (state, crn) {
       state.selectedCRNs = [...state.selectedCRNs, crn]
+      localStorage.setItem('selectedCRNs', JSON.stringify(state.selectedCRNs))
     },
     UNSELECT_CRN (state, crn) {
       state.selectedCRNs = state.selectedCRNs.filter(oldCRN => oldCRN !== crn)
+      localStorage.setItem('selectedCRNs', JSON.stringify(state.selectedCRNs))
     },
     SET_SELECTED_COURSE (state, course) {
       state.selectedCourse = course
@@ -51,10 +53,9 @@ export default new Vuex.Store({
     SET_COURSE_DIALOG_OPEN (state, isOpen) {
       state.isCourseDialogOpen = isOpen
     },
-    CLEAR_SELECTED_CRNS: state => {
-      state.selectedCRNs = []
+    SET_SELECTED_CRNS: (state, crns) => {
+      state.selectedCRNs = crns
+      localStorage.setItem('selectedCRNs', JSON.stringify(state.selectedCRNs))
     }
-  },
-  actions: {
   }
 })

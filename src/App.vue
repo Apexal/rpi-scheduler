@@ -26,7 +26,7 @@
         <transition name="router-view-fade" mode="out-in">
           <router-view></router-view>
         </transition>
-        <md-button v-if="$store.state.selectedCRNs.length > 0" class="md-fab md-plain md-fab-bottom-right" @click="$store.commit('CLEAR_SELECTED_CRNS')">
+        <md-button v-if="$store.state.selectedCRNs.length > 0" class="md-fab md-plain md-fab-bottom-right" @click="$store.commit('SET_SELECTED_CRNS', [])">
           <md-icon>clear</md-icon>
         </md-button>
       </md-app-content>
@@ -45,6 +45,15 @@ export default {
   data () {
     return {
       drawerOpen: false
+    }
+  },
+  created () {
+    if (localStorage.getItem('selectedCRNs') !== null) {
+      try {
+        this.$store.commit('SET_SELECTED_CRNS', JSON.parse(localStorage.getItem('selectedCRNs')))
+      } catch (e) {
+        localStorage.removeItem('selectedCRNs')
+      }
     }
   }
 }
