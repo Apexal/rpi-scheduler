@@ -2,29 +2,43 @@
   <div class="browse-courses-page">
     <h1>Browse Courses</h1>
 
-    <div class="search md-layout md-gutter">
-      <div class="md-layout-item">
-        <md-autocomplete v-model.trim="search.subjectCode" :md-options="subjectCodesWithFullNames">
-          <label>Subject</label>
-        </md-autocomplete>
-      </div>
-      <div class="md-layout-item">
-        <md-autocomplete v-model.trim="search.title" :md-options="searchCourseTitles">
-          <label>Title</label>
-        </md-autocomplete>
-      </div>
+    <md-card>
 
-      <div class="md-layout-item">
-        <md-autocomplete v-model.trim="search.instructor" :md-options="searchCourseInstructors">
-          <label>Instructor</label>
-        </md-autocomplete>
-      </div>
-    </div>
+        <div class="search md-layout md-gutter">
+          <div class="md-layout-item">
+            <md-autocomplete v-model.trim="search.subjectCode" :md-options="subjectCodesWithFullNames">
+              <label>Subject</label>
+            </md-autocomplete>
+          </div>
+          <div class="md-layout-item">
+            <md-autocomplete v-model.trim="search.title" :md-options="searchCourseTitles">
+              <label>Title</label>
+            </md-autocomplete>
+          </div>
+
+          <div class="md-layout-item">
+            <md-autocomplete v-model.trim="search.instructor" :md-options="searchCourseInstructors">
+              <label>Instructor</label>
+            </md-autocomplete>
+          </div>
+        </div>
+      <md-card-expand>
+        <md-card-expand-trigger>
+          <md-button class="md-accent">Advanced Search</md-button>
+        </md-card-expand-trigger>
+        <md-card-expand-content>
+          <md-card-content>
+            <p>test</p>
+          </md-card-content>
+        </md-card-expand-content>
+      </md-card-expand>
+    </md-card>
 
     <div class="subject-codes" v-if="isSearchEmpty">
       <transition-group name="subject-code-list" tag="div">
 
         <md-card
+          class="subject-code-card"
           v-for="subjectCode in subjectCodes"
           :key="subjectCode"
           :class="favoriteSubjectCodes.includes(subjectCode) ? 'md-accent' : 'md-primary'"
@@ -184,7 +198,7 @@ export default {
 </script>
 
 <style scoped>
-.md-card {
+.subject-code-card {
   width: 320px;
   margin: 10px;
   display: inline-block;
