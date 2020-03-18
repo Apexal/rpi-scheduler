@@ -12,7 +12,7 @@ export default new Vuex.Store({
   },
   getters: {
     hasConflicts: state => {
-      return true
+      return false
     },
     selectedCourses: state => {
       return courses.filter(course => course.sections.some(section => state.selectedCRNs.includes(section.crn)))
