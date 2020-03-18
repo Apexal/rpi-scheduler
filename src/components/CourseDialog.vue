@@ -51,6 +51,7 @@
     </md-dialog-content>
 
     <md-dialog-actions>
+      <md-button v-if="hasAnySelected" class="md-accent" @click="clearSelectedCourseSections">Clear Sections</md-button>
       <md-button class="md-primary" @click="$emit('close')">Close</md-button>
     </md-dialog-actions>
   </md-dialog>
@@ -85,6 +86,9 @@ export default {
     },
     formatTime (timeString) {
       return dayjs(timeString, 'HH:mm').format('h:mm a')
+    },
+    clearSelectedCourseSections () {
+      this.$store.commit('SET_SELECTED_CRNS', this.selectedCRNs.filter(crn => !this.course.sections.some(section => section.crn === crn)))
     },
     switchToSection (crn) {
       // Remove other sections in this course
