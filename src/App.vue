@@ -2,7 +2,7 @@
   <div class="page-container">
     <md-app md-waterfall md-mode="fixed">
       <md-app-toolbar class="md-primary">
-        <md-button class="md-icon-button" @click="drawerOpen = !drawerOpen">
+        <md-button class="md-icon-button md-mobile-only" @click="drawerOpen = !drawerOpen">
           <md-icon>menu</md-icon>
         </md-button>
         <span class="md-title" style="flex: 1">RPI Scheduler</span>
@@ -69,5 +69,13 @@ export default {
 }
 .router-view-fade-enter, .router-view-fade-leave-to {
   opacity: 0;
+}
+
+.md-mobile-only {
+  display: none !important;
+
+  @media (max-width:600px) {
+    display: initial !important;
+  }
 }
 </style>
