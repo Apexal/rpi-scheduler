@@ -8,14 +8,15 @@ export default new Vuex.Store({
   state: {
     isCourseDialogOpen: false,
     selectedCourse: null,
-    selectedCRNs: [
-      // '94997',
-      // '94806',
-      // '94496',
-      // '95738'
-    ]
+    selectedCRNs: []
   },
   getters: {
+    hasConflicts: state => {
+      return true
+    },
+    selectedCourses: state => {
+      return courses.filter(course => course.sections.some(section => state.selectedCRNs.includes(section.crn)))
+    },
     getSelectedCoursesGroupedByCRN: state => {
       const grouped = {}
       for (const crn of state.selectedCRNs) {
