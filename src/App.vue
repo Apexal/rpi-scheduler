@@ -23,7 +23,9 @@
 
       <md-app-content>
         <CourseDialog :active="$store.state.isCourseDialogOpen" :course="$store.state.selectedCourse" @close="$store.commit('SET_COURSE_DIALOG_OPEN', false)" />
-        <router-view></router-view>
+        <transition name="router-view-fade" mode="out-in">
+          <router-view></router-view>
+        </transition>
         <md-button v-if="$store.state.selectedCRNs.length > 0" class="md-fab md-plain md-fab-bottom-right" @click="$store.commit('CLEAR_SELECTED_CRNS')">
           <md-icon>clear</md-icon>
         </md-button>
@@ -51,5 +53,12 @@ export default {
 <style lang="scss">
 .md-app {
   height: 100vh;
+}
+
+.router-view-fade-enter-active, .router-view-fade-leave-active {
+  transition: opacity .1s ease-in-out;
+}
+.router-view-fade-enter, .router-view-fade-leave-to {
+  opacity: 0;
 }
 </style>
