@@ -47,6 +47,7 @@
         >
           <md-ripple>
             <md-card-header>
+            <md-tooltip md-direction="bottom">{{ groupedBySubjectCode[subjectCode].length }} courses</md-tooltip>
               <md-card-header-text>
                 <div class="md-title">{{ subjectCode }}</div>
                 <div class="md-subhead">{{ subjectCodeFullName(subjectCode) }}</div>

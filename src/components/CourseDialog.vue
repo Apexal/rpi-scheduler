@@ -12,7 +12,7 @@
             <md-table-row>
               <md-table-head>#</md-table-head>
               <md-table-head>CRN</md-table-head>
-              <md-table-head>Meet On</md-table-head>
+              <md-table-head>Meetings</md-table-head>
               <md-table-head>Instructors</md-table-head>
               <md-table-head>Actions</md-table-head>
             </md-table-row>
@@ -32,9 +32,11 @@
               <md-table-cell>{{ section.instructors.join(', ') }}</md-table-cell>
               <md-table-cell>
                 <md-button v-if="selectedCRNs.includes(section.crn)" class="md-icon-button md-accent" @click="$store.commit('UNSELECT_CRN', section.crn)">
+                  <md-tooltip md-direction="left">Remove from schedule</md-tooltip>
                   <md-icon>remove_circle_outline</md-icon>
                 </md-button>
                 <md-button v-else class="md-icon-button md-primary" @click="$store.commit('SELECT_CRN', section.crn)">
+                  <md-tooltip md-direction="left">Add to schedule</md-tooltip>
                   <md-icon>add_circle_outline</md-icon>
                 </md-button>
               </md-table-cell>

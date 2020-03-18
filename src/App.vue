@@ -27,6 +27,7 @@
           <router-view></router-view>
         </transition>
         <md-button v-if="$store.state.selectedCRNs.length > 0" class="md-fab md-plain md-fab-bottom-right" @click="$store.commit('SET_SELECTED_CRNS', [])">
+          <md-tooltip md-direction="left">Clear schedule</md-tooltip>
           <md-icon>clear</md-icon>
         </md-button>
       </md-app-content>
