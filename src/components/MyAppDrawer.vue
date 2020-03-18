@@ -24,19 +24,33 @@
       <md-subheader>Selected Sections</md-subheader>
       <transition-group name="selected-crn-list" tag="div">
         <md-list-item v-for="(course, crn) in selectedCourses" :key="course.title + crn" @click="selectCourse(course)">
-          <strong class="selected-crn">{{ crn }}</strong><span class="md-list-item-text">{{ course.title }}</span>
+          <strong @click.stop="copyCRN(crn)" class="selected-crn">
+            <md-tooltip md-direction="bottom">Click to copy CRN</md-tooltip>
+            {{ crn }}
+          </strong>
+          <span class="md-list-item-text">{{ course.title }}</span>
           <md-button v-if="selectedCRNs.includes(crn)" class="md-icon-button md-accent" @click.stop="$store.commit('UNSELECT_CRN', crn)">
             <md-icon>remove_circle_outline</md-icon>
           </md-button>
         </md-list-item>
       </transition-group>
     </md-list>
+
+    <md-snackbar md-position="center" :md-duration="2000" :md-active.sync="showSnackbar" md-persistent>
+      <span>Copied crn <strong>{{ copiedCRN }}</strong> to your clipboard!</span>
+    </md-snackbar>
   </div>
 </template>
 
 <script>
 export default {
   name: 'MyAppDrawer',
+  data () {
+    return {
+      showSnackbar: false,
+      copiedCRN: ''
+    }
+  },
   computed: {
     selectedCRNs () {
       return this.$store.state.selectedCRNs
@@ -49,6 +63,16 @@ export default {
     selectCourse (course) {
       this.$store.commit('SET_SELECTED_COURSE', course)
       this.$store.commit('SET_COURSE_DIALOG_OPEN', true)
+    },
+    copyCRN (crn) {
+      this.copiedCRN = crn
+      const el = document.createElement('textarea')
+      el.value = crn
+      document.body.appendChild(el)
+      el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+      this.showSnackbar = true
     }
   }
 }
