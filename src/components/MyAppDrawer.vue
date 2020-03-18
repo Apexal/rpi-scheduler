@@ -28,7 +28,8 @@
             <md-tooltip md-direction="bottom">Click to copy CRN</md-tooltip>
             {{ crn }}
           </strong>
-          <span class="md-list-item-text">{{ course.title }}</span>
+          <span class="course-title">{{ course.title }}</span>
+          <span class="md-list-item-text section-id"> - {{ selectedSections[crn].sectionId }}</span>
           <md-button v-if="selectedCRNs.includes(crn)" class="md-icon-button md-accent" @click.stop="$store.commit('UNSELECT_CRN', crn)">
             <md-tooltip md-direction="left">Remove section</md-tooltip>
             <md-icon>remove_circle_outline</md-icon>
@@ -58,6 +59,9 @@ export default {
     },
     selectedCourses () {
       return this.$store.getters.getSelectedCoursesGroupedByCRN
+    },
+    selectedSections () {
+      return this.$store.getters.getSelectedSectionsGroupedByCRN
     }
   },
   methods: {
@@ -80,8 +84,8 @@ export default {
 </script>
 
 <style scoped>
-.selected-crn {
-  margin-right: 10px;
+.course-title {
+  padding: 0 5px;
 }
 
 .selected-crn-list-enter-active, .selected-crn-list-leave-active {

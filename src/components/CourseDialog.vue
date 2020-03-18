@@ -23,6 +23,7 @@
                     <strong>{{ dayNames(period.days).join(', ') }}</strong>
                     <span class="md-mobile-only spacer">|</span>
                     <span class="times">{{formatTime(period.startTime)}} - {{ formatTime(period.endTime) }}</span>
+                    <span class="period-type">{{ $store.getters.periodTypeDisplay(period.periodType) }}</span>
                     <!-- <span class="location">{{ period.location }}</span> -->
                   </md-list-item>
                 </md-list>
