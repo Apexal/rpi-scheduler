@@ -70,13 +70,13 @@
       md-description="We could not find any courses that matched your search. Try changing the filters.">
     </md-empty-state>
 
-    <md-table v-model="tableResults" md-sort="code" md-sort-order="asc">
+    <md-table v-model="tableResults" md-sort="code" md-sort-order="asc" md-fixed-header>
 
       <md-table-toolbar>
         <h1 class="md-title">Search Results</h1>
       </md-table-toolbar>
 
-      <md-table-row slot="md-table-row" slot-scope="{ item }" @click="selectCourse(item)">
+      <md-table-row slot="md-table-row" slot-scope="{ item }" @click="selectCourse(item)" md-selectable="single">
         <md-table-cell md-label="Code" md-sort-by="number"><strong>{{ item.subjectCode }}-{{ item.number }}</strong></md-table-cell>
         <md-table-cell md-label="Title" md-sort-by="title">{{ item.title }}</md-table-cell>
         <md-table-cell md-label="Sections" md-sort-by="sections.length">{{ item.sections.length }}</md-table-cell>
@@ -222,5 +222,11 @@ export default {
 
 .subject-code-list-move {
   transition: transform 0.5s ease-out;
+}
+</style>
+
+<style>
+.md-table-content {
+  max-height: 60vh !important;
 }
 </style>
