@@ -28,9 +28,17 @@ export default new Vuex.Store({
     getSelectedPeriods: state => {
       return courses.map(course => course.sections.filter(section => state.selectedCRNs.includes(section.crn))).flat().map(section => section.periods).flat()
     },
-    mapPeriodToEvent: state => period => {
+    periodTypeDisplay: state => periodType => {
       return {
-        title: period.courseTitle + ' ' + period.periodType,
+        LEC: 'Lecture',
+        REC: 'Recitation',
+        TES: 'Test',
+        STU: 'Studio'
+      }[periodType] || periodType
+    },
+    mapPeriodToEvent: (state, getters) => period => {
+      return {
+        title: period.courseTitle + ' ' + getters.periodTypeDisplay(period.periodType),
         startTime: period.startTime,
         endTime: period.endTime,
         daysOfWeek: period.days,

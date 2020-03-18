@@ -13,6 +13,7 @@
         v-else
         default-view="timeGridWeek"
         :plugins="calendar.plugins"
+        event-color="#448aff"
         slot-duration="01:00:00"
         :all-day-slot="false"
         :header="calendar.header"
