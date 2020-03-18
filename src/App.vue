@@ -8,11 +8,10 @@
         <span class="md-title" style="flex: 1">RPI Scheduler</span>
 
         <md-menu md-size="medium" md-align-trigger>
-          <md-button md-menu-trigger>Spring 2020</md-button>
+          <md-button md-menu-trigger>Fall 2020</md-button>
 
           <md-menu-content>
             <md-menu-item>Summer 2020</md-menu-item>
-            <md-menu-item>Fall 2020</md-menu-item>
           </md-menu-content>
         </md-menu>
       </md-app-toolbar>
