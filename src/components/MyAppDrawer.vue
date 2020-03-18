@@ -42,13 +42,6 @@
       <template v-if="selectedCRNs.length > 0">
         <md-subheader>Stats</md-subheader>
         <md-list-item><span>Total Credits</span><strong>{{ totalCredits }}</strong></md-list-item>
-        <md-list-item>
-          <span>Earliest Class</span>
-          <strong><md-tooltip md-direction="left">Name of course</md-tooltip>8:00am</strong>
-        </md-list-item>
-        <md-list-item>
-        <span>Latest Class</span>
-        <strong><md-tooltip md-direction="left">Name of course</md-tooltip>7:50pm</strong></md-list-item>
       </template>
     </md-list>
 
