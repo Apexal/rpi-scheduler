@@ -21,8 +21,9 @@
                 <md-list>
                   <md-list-item v-for="(period, index) in section.periods" :key="index">
                     <strong>{{ dayNames(period.days).join(', ') }}</strong>
+                    <span class="md-mobile-only spacer">|</span>
                     <span class="times">{{formatTime(period.startTime)}} - {{ formatTime(period.endTime) }}</span>
-                    <span class="location">{{ period.location }}</span>
+                    <!-- <span class="location">{{ period.location }}</span> -->
                   </md-list-item>
                 </md-list>
               </md-table-cell>
@@ -101,5 +102,11 @@ export default {
 <style>
 .md-content.md-tabs-content {
   max-width: 90vw !important;
+}
+</style>
+
+<style lang="scss" scoped>
+.spacer {
+  padding: 0 5px;
 }
 </style>
