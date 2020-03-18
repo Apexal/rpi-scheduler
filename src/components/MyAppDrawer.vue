@@ -43,9 +43,7 @@
             {{ crn }}
           </strong> -->
           <span class="course-title md-list-item-text">{{ course.title }}</span>
-          <md-button class="md-icon-button" @click.stop="selectCourse(course)">
-            <md-icon>info_outline</md-icon>
-          </md-button>
+
           <md-button class="md-icon-button md-accent" @click.stop="clearSections(course)">
             <md-tooltip md-direction="left">Remove ALL section</md-tooltip>
             <md-icon>remove_circle_outline</md-icon>
@@ -66,11 +64,6 @@
       </transition-group>
 
       <md-divider></md-divider>
-
-      <template v-if="selectedCRNs.length > 0">
-        <md-subheader>Stats</md-subheader>
-        <md-list-item><span>Total Credits</span><strong>{{ totalCredits }}</strong></md-list-item>
-      </template>
     </md-list>
 
     <md-snackbar md-position="center" :md-duration="2000" :md-active.sync="showSnackbar" md-persistent>
