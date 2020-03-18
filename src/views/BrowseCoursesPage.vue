@@ -37,7 +37,6 @@
 
     <div class="subject-codes" v-if="isSearchEmpty">
       <transition-group name="subject-code-list" tag="div">
-
         <md-card
           class="subject-code-card"
           v-for="subjectCode in subjectCodes"
@@ -71,7 +70,6 @@
     </md-empty-state>
 
     <md-table v-model="tableResults" md-sort="code" md-sort-order="asc" md-fixed-header>
-
       <md-table-toolbar>
         <h1 class="md-title">Search Results</h1>
       </md-table-toolbar>
@@ -82,15 +80,6 @@
         <md-table-cell md-label="Sections" md-sort-by="sections.length">{{ item.sections.length }}</md-table-cell>
         <md-table-cell md-label="Credits">{{ getAllCredits(item.sections).join(',') }}</md-table-cell>
       </md-table-row>
-      <!-- <md-table-row>
-        <md-table-head>Code</md-table-head>
-        <md-table-head>Title</md-table-head>
-        <md-table-head>Sections</md-table-head>
-        <md-table-head>Credits</md-table-head>
-      </md-table-row>
-
-      <md-table-row v-for="result in results" :key="result.subjectCode + result.number" @click="selectCourse(result)">
-      </md-table-row> -->
     </md-table>
   </div>
 </template>
@@ -162,7 +151,6 @@ export default {
       return [...new Set(this.results.map(course => course.sections.map(section => section.instructors).flat()).flat())].sort()
     },
     results () {
-      console.log('changed results')
       if (this.isSearchEmpty) return []
 
       let results = courses
@@ -184,7 +172,6 @@ export default {
   watch: {
     results (newResults) {
       this.tableResults = newResults
-      console.log('updated tableResults')
     },
     favoriteSubjectCodes (newFavoriteSubjectCodes) {
       localStorage.setItem('favoriteSubjectCodes', JSON.stringify(newFavoriteSubjectCodes))

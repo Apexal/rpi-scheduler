@@ -1,7 +1,7 @@
 <template>
   <md-dialog v-if="course" :md-active="active" @md-closed="$emit('close')" @md-clicked-outside="$emit('close')">
     <md-dialog-title><strong>{{ course.subjectCode }}-{{ course.number }}</strong> {{ course.title}}</md-dialog-title>
-
+    <span>{{ allCredits }}</span>
     <md-dialog-content>
       <md-tabs>
         <md-tab md-label="Sections">
@@ -77,6 +77,9 @@ export default {
     },
     hasAnySelected () {
       return this.course.sections.some(section => this.selectedCRNs.includes(section.crn))
+    },
+    allCredits () {
+      return [...new Set(this.course.sections.map(section => section.credits))].sort()
     }
   },
   methods: {

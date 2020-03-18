@@ -36,6 +36,18 @@
           </md-button>
         </md-list-item>
       </transition-group>
+
+      <md-divider></md-divider>
+
+      <md-subheader>Stats</md-subheader>
+      <md-list-item><span>Total Credits</span><strong>{{ totalCredits }}</strong></md-list-item>
+      <md-list-item>
+        <span>Earliest Class</span>
+        <strong><md-tooltip md-direction="left">Name of course</md-tooltip>8:00am</strong>
+      </md-list-item>
+      <md-list-item>
+        <span>Latest Class</span>
+        <strong><md-tooltip md-direction="left">Name of course</md-tooltip>7:50pm</strong></md-list-item>
     </md-list>
 
     <md-snackbar md-position="center" :md-duration="2000" :md-active.sync="showSnackbar" md-persistent>
@@ -62,6 +74,22 @@ export default {
     },
     selectedSections () {
       return this.$store.getters.getSelectedSectionsGroupedByCRN
+    },
+    totalCredits () {
+      let estimate = false
+      const total = Object.values(this.selectedSections).reduce((acc, section) => {
+        const parts = section.credits.split('-')
+
+        if (parts.length === 0) {
+          return acc
+        } else if (parts.length === 1) {
+          return acc + parseInt(section.credits)
+        } else {
+          estimate = true
+          return acc
+        }
+      }, 0)
+      return estimate ? ('>' + total) : total
     }
   },
   methods: {
