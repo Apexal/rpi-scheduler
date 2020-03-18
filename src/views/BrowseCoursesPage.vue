@@ -79,8 +79,19 @@
         <md-table-cell md-label="Title" md-sort-by="title">{{ item.title }}</md-table-cell>
         <md-table-cell md-label="Sections" md-sort-by="sections.length">{{ item.sections.length }}</md-table-cell>
         <md-table-cell md-label="Credits">{{ getAllCredits(item.sections).join(',') }}</md-table-cell>
+        <md-table-cell md-label="Actions">
+          <md-button class="md-icon-button md-primary" @click.stop="addAllSections(item)">
+            <md-tooltip md-direction="left">Add ALL {{ item.sections.length }} sections</md-tooltip>
+            <md-icon>add_to_photos</md-icon>
+          </md-button>
+        </md-table-cell>
       </md-table-row>
     </md-table>
+
+    <md-snackbar md-position="center" :md-duration="4000" :md-active.sync="snackbar.active" md-persistent>
+      <span>Added <strong>{{ snackbar.count }}</strong> sections to your schedule.</span>
+      <md-button class="md-primary" :to="{ name: 'ViewSchedule' }">View Schedule</md-button>
+    </md-snackbar>
   </div>
 </template>
 
@@ -98,6 +109,10 @@ export default {
         subjectCode: '',
         title: '',
         instructor: ''
+      },
+      snackbar: {
+        active: false,
+        count: 0
       }
     }
   },
@@ -194,6 +209,11 @@ export default {
       } else {
         this.favoriteSubjectCodes = [...this.favoriteSubjectCodes, subjectCode]
       }
+    },
+    addAllSections (course) {
+      this.$store.commit('SET_SELECTED_CRNS', this.$store.state.selectedCRNs.concat(course.sections.map(section => section.crn)))
+      this.snackbar.active = true
+      this.snackbar.count = course.sections.length
     }
   }
 }

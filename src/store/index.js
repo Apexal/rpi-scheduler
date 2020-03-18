@@ -73,7 +73,7 @@ export default new Vuex.Store({
       state.isCourseDialogOpen = isOpen
     },
     SET_SELECTED_CRNS: (state, crns) => {
-      state.selectedCRNs = crns
+      state.selectedCRNs = [...new Set(crns)]
       localStorage.setItem('selectedCRNs', JSON.stringify(state.selectedCRNs))
     }
   }
