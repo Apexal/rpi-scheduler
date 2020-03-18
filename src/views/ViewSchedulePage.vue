@@ -23,6 +23,7 @@
         max-time="22:00:00"
         :events="events"
         height="auto"
+        @eventRender="eventRender"
         @eventClick="eventClick"
       />
   </div>
@@ -64,6 +65,14 @@ export default {
     eventClick ({ event }) {
       this.$store.commit('SET_SELECTED_COURSE', this.$store.getters.getSelectedCoursesGroupedByCRN[event.extendedProps.crn])
       this.$store.commit('SET_COURSE_DIALOG_OPEN', true)
+    },
+    eventRender ({ event, el }) {
+      el.title = event.title
+
+      // Add section and crn
+      const span = document.createElement('span')
+      span.innerText = event.extendedProps.crn
+      el.append(span)
     }
   }
 }
