@@ -1,7 +1,6 @@
 <template>
   <md-dialog v-if="course" :md-active="active" @md-closed="$emit('close')" @md-clicked-outside="$emit('close')">
     <md-dialog-title><strong>{{ course.subjectCode }}-{{ course.number }}</strong> {{ course.title}}</md-dialog-title>
-    <span>{{ allCredits }}</span>
     <md-dialog-content>
       <md-tabs>
         <md-tab md-label="Sections">
@@ -9,6 +8,7 @@
             <md-table-row>
               <md-table-head>#</md-table-head>
               <md-table-head>CRN</md-table-head>
+              <md-table-head>Credits</md-table-head>
               <md-table-head>Meetings</md-table-head>
               <md-table-head>Instructors</md-table-head>
               <md-table-head>Actions</md-table-head>
@@ -47,6 +47,7 @@
           </md-table>
         </md-tab>
         <md-tab md-label="Description">
+          <strong>{{ allCredits.join(' or ') }} credits</strong>
           <p>(Coming Soon) The official course description from the Catalog will be here.</p>
         </md-tab>
       </md-tabs>

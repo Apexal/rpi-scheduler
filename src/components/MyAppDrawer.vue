@@ -1,7 +1,5 @@
 <template>
   <div>
-    <md-toolbar class="md-transparent" md-elevation="0">Navigation</md-toolbar>
-
     <md-subheader>Pages</md-subheader>
     <md-list>
       <md-list-item :to="{ name: 'Home' }">
@@ -22,6 +20,8 @@
       <md-divider></md-divider>
 
       <md-subheader>Selected Sections</md-subheader>
+      <md-list-item v-if="selectedCRNs.length === 0"><span>Added sections will display here.</span></md-list-item>
+
       <transition-group name="selected-crn-list" tag="div">
         <md-list-item v-for="(course, crn) in selectedCourses" :key="course.title + crn" @click="selectCourse(course)">
           <strong @click.stop="copyCRN(crn)" class="selected-crn">
@@ -39,15 +39,17 @@
 
       <md-divider></md-divider>
 
-      <md-subheader>Stats</md-subheader>
-      <md-list-item><span>Total Credits</span><strong>{{ totalCredits }}</strong></md-list-item>
-      <md-list-item>
-        <span>Earliest Class</span>
-        <strong><md-tooltip md-direction="left">Name of course</md-tooltip>8:00am</strong>
-      </md-list-item>
-      <md-list-item>
+      <template v-if="selectedCRNs.length > 0">
+        <md-subheader>Stats</md-subheader>
+        <md-list-item><span>Total Credits</span><strong>{{ totalCredits }}</strong></md-list-item>
+        <md-list-item>
+          <span>Earliest Class</span>
+          <strong><md-tooltip md-direction="left">Name of course</md-tooltip>8:00am</strong>
+        </md-list-item>
+        <md-list-item>
         <span>Latest Class</span>
         <strong><md-tooltip md-direction="left">Name of course</md-tooltip>7:50pm</strong></md-list-item>
+      </template>
     </md-list>
 
     <md-snackbar md-position="center" :md-duration="2000" :md-active.sync="showSnackbar" md-persistent>
