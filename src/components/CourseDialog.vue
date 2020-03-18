@@ -21,7 +21,7 @@
                 <md-list>
                   <md-list-item v-for="(period, index) in section.periods" :key="index">
                     <strong>{{ dayNames(period.days).join(', ') }}</strong>
-                    <span class="times">{{formatTime(period.startTime)}} {{ formatTime(period.endTime) }}</span>
+                    <span class="times">{{formatTime(period.startTime)}} - {{ formatTime(period.endTime) }}</span>
                     <span class="location">{{ period.location }}</span>
                   </md-list-item>
                 </md-list>
@@ -33,8 +33,12 @@
                   <md-icon>remove_circle_outline</md-icon>
                 </md-button>
                 <md-button v-else class="md-icon-button md-primary" @click="$store.commit('SELECT_CRN', section.crn)">
-                  <md-tooltip md-direction="left">Add to schedule</md-tooltip>
+                  <md-tooltip md-direction="left">Add this section</md-tooltip>
                   <md-icon>add_circle_outline</md-icon>
+                </md-button>
+                <md-button v-if="hasAnySelected && !selectedCRNs.includes(section.crn)" class="md-icon-button md-primary" @click="switchToSection(section.crn)">
+                  <md-tooltip md-direction="left">Switch to this section</md-tooltip>
+                  <md-icon>swap_horiz</md-icon>
                 </md-button>
               </md-table-cell>
             </md-table-row>
@@ -67,6 +71,9 @@ export default {
   computed: {
     selectedCRNs () {
       return this.$store.state.selectedCRNs
+    },
+    hasAnySelected () {
+      return this.course.sections.some(section => this.selectedCRNs.includes(section.crn))
     }
   },
   methods: {
@@ -78,6 +85,10 @@ export default {
     },
     formatTime (timeString) {
       return dayjs(timeString, 'HH:mm').format('h:mm a')
+    },
+    switchToSection (crn) {
+      // Remove other sections in this course
+      this.$store.commit('SET_SELECTED_CRNS', [...this.selectedCRNs.filter(crn => !this.course.sections.some(section => section.crn === crn)), crn])
     }
   }
 }
