@@ -8,7 +8,6 @@
             <md-table-row>
               <md-table-head>#</md-table-head>
               <md-table-head>CRN</md-table-head>
-              <md-table-head>Credits</md-table-head>
               <md-table-head>Meetings</md-table-head>
               <md-table-head>Instructors</md-table-head>
               <md-table-head>Actions</md-table-head>
